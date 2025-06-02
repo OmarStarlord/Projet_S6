@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable_shape.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable\\shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\font_roboto_bold.ttf.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\font\\roboto_bold.ttf"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable_google.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable\\google.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\font_rubik_bold.ttf.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\font\\rubik_bold.ttf"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\font_roboto_regular.ttf.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\font\\roboto_regular.ttf"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable-night_shape.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable-night\\shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable_logo.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable\\logo.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable_facebook.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable\\facebook.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\font_roboto_medium.ttf.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\font\\roboto_medium.ttf"
+    },
+    {
+        "merged": "com.example.alpha1.app-debug-4:/drawable_logo.png.flat",
+        "source": "com.example.alpha1.app-main-6:/drawable/logo.png"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\font_inter_medium.ttf.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\font\\inter_medium.ttf"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-debug-4:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\louay\\AndroidStudioProjects\\MyApplication\\daemon\\8.9\\com.example.alpha1.app-main-6:\\mipmap-mdpi\\ic_launcher_round.webp"
+    }
+]
