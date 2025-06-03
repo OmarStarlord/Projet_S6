@@ -1,24 +1,27 @@
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import User, Etudiant, Cours, Attendance
+from .models import Etudiant, Cours, Attendance, Professeur
 from .serializers import (
     EtudiantCreateSerializer,
     CoursSerializer,
     AttendanceSerializer,
     CustomTokenObtainPairSerializer,
+    ProfesseurCreateSerializer,
 )
 
-# Auth avec JWT
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
+
 
 # Créer un étudiant (avec User)
 class EtudiantCreateAPIView(generics.CreateAPIView):
     queryset = Etudiant.objects.all()
     serializer_class = EtudiantCreateSerializer
+    
+class ProfesseurCreateAPIView(generics.CreateAPIView):
+    queryset = Professeur.objects.all()
+    serializer_class = ProfesseurCreateSerializer
+
 
 # Créer un cours
 class CoursCreateAPIView(generics.CreateAPIView):
@@ -52,4 +55,41 @@ class SoumettrePresencesAPIView(APIView):
 
         return Response({"message": "Présences mises à jour avec succès."})
 
+
+
+class EtudiantLoginView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        mot_de_passe = request.data.get('mot_de_passe')
+
+        if not email or not mot_de_passe:
+            return Response({'error': 'Email et mot de passe requis'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            etudiant = Etudiant.objects.get(email=email)
+            if etudiant.mot_de_passe == mot_de_passe:
+                return Response({'message': 'Connexion réussie', 'id': etudiant.id})
+            else:
+                return Response({'error': 'Mot de passe incorrect'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Etudiant.DoesNotExist:
+            return Response({'error': 'Étudiant non trouvé'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProfesseurLoginView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        mot_de_passe = request.data.get('mot_de_passe')
+
+        if not email or not mot_de_passe:
+            return Response({'error': 'Email et mot de passe requis'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            prof = Professeur.objects.get(email=email)
+            if prof.mot_de_passe == mot_de_passe:
+                return Response({'message': 'Connexion réussie', 'id': prof.id})
+            else:
+                return Response({'error': 'Mot de passe incorrect'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Professeur.DoesNotExist:
+            return Response({'error': 'Professeur non trouvé'}, status=status.HTTP_404_NOT_FOUND)
+        
 

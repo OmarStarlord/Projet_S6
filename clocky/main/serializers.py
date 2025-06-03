@@ -2,25 +2,32 @@ from .models import *
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class EtudiantCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Etudiant
-        fields = ['id', 'nom_etudiant', 'numero_etudiant', 'email', 'mot_de_passe', 'groupe_td', 'groupe_tp']
+        fields = [
+            'id',
+            'nom_etudiant',
+            'numero_etudiant',
+            'email',
+            'mot_de_passe',
+            'groupe_td',
+            'groupe_tp',
+        ]
 
 class ProfesseurCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professeur
         fields = ['id', 'nom_professeur', 'email', 'mot_de_passe']
 
-class AdminCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Admin
-        fields = ['id', 'nom_admin', 'email', 'mot_de_passe']
+
+
 
 class CoursSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cours
-        fields = ['id', 'nom_cours', 'professeur', 'date_cours', 'type_cours', 'groupe']
+        fields = ['id', 'nom_cours', 'professeur', 'date_cours', 'type_cours']  
 
 class AttendanceSerializer(serializers.ModelSerializer):
     etudiant_nom = serializers.CharField(source='etudiant.nom_etudiant', read_only=True)
