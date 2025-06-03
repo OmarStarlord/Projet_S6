@@ -1,40 +1,34 @@
-# models.py 
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
 
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('etudiant', 'Etudiant'),
+        ('professeur', 'Professeur'),
+        ('admin', 'Administrateur'),
+    ]
+
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']  # username still required internally
+
+    def __str__(self):
+        return f"{self.username} ({self.role})"
+
 
 class Etudiant(models.Model):
-    nom_etudiant = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="etudiant")
     numero_etudiant = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    mot_de_passe = models.CharField(max_length=100)
-    date_inscription = models.DateTimeField(default=timezone.now)
     groupe_tp = models.IntegerField(null=True, blank=True)
     groupe_td = models.IntegerField(null=True, blank=True)
+    date_inscription = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.nom_etudiant
-
-
-class Professeur(models.Model):
-    nom_professeur = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    mot_de_passe = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom_professeur
-
-
-class Admin(models.Model):
-    nom_admin = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    mot_de_passe = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom_admin
-
-
+        return self.user.username
 
 
 class Cours(models.Model):
@@ -45,23 +39,20 @@ class Cours(models.Model):
     ]
 
     nom_cours = models.CharField(max_length=100)
-    professeur = models.ForeignKey(Professeur, on_delete=models.CASCADE)
+    professeur = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'professeur'})
     date_cours = models.DateTimeField(default=timezone.now)
     type_cours = models.CharField(max_length=2, choices=TYPE_COURS_CHOICES)
-    groupe = models.IntegerField(null=True, blank=True)  
-    etudiants = models.ManyToManyField('Etudiant', through='Attendance', related_name='cours')
+    groupe = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        if self.type_cours == 'CM':
-            return f"{self.nom_cours} (CM)"
-        return f"{self.nom_cours} ({self.type_cours} {self.groupe})"
+        return f"{self.nom_cours} ({self.type_cours} {self.groupe or 'tous'})"
 
 
 class Attendance(models.Model):
     STATUT_CHOICES = [
         ('present', 'Présent'),
         ('absent', 'Absent'),
-        ('en retard', 'En Retard')
+        ('en_retard', 'En retard'),
     ]
 
     cours = models.ForeignKey(Cours, on_delete=models.CASCADE, related_name='presences')
@@ -72,4 +63,4 @@ class Attendance(models.Model):
         unique_together = ('cours', 'etudiant')
 
     def __str__(self):
-        return f"{self.etudiant.nom_etudiant} - {self.cours} - {self.statut or 'Non marqué'}"
+        return f"{self.etudiant.user.username} - {self.cours.nom_cours} - {self.statut or 'Non marqué'}"

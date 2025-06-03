@@ -1,5 +1,6 @@
 from .models import *
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class EtudiantCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +29,19 @@ class AttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendance
         fields = ['id', 'etudiant_id', 'etudiant_nom', 'statut']
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        user = self.user
+        if hasattr(user, 'etudiant'):
+            data['role'] = 'etudiant'
+        elif hasattr(user, 'professeur'):
+            data['role'] = 'professeur'
+        elif hasattr(user, 'admin'):
+            data['role'] = 'admin'
+
+        data['id'] = user.id
+        return data
