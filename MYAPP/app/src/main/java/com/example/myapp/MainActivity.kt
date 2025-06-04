@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.myapp.ui.screens.*
 import com.example.myapp.ui.theme.MYAPPTheme
 
+//code du main pour appeller les interfaces et l'affichage de tout
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

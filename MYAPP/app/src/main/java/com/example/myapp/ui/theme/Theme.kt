@@ -16,6 +16,7 @@ private val CustomDarkColorScheme = darkColorScheme(
     onSurface = DarkOnSurface
 )
 
+// fonction MYAPPTheme qui doit etre appelé pour affiché le theme
 @Composable
 fun MYAPPTheme(content: @Composable () -> Unit) {
     MaterialTheme(

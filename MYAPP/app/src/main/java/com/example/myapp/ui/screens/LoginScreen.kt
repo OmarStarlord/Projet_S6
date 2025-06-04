@@ -19,6 +19,7 @@ import com.example.myapp.R
 import com.example.myapp.user.User
 import com.example.myapp.user.Role
 
+// page login, sa logique est simple, elle est nikel, please do not touch
 @Composable
 fun LoginScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme

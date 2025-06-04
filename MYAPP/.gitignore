@@ -13,12 +13,3 @@
 .externalNativeBuild
 .cxx
 local.properties
-# Ignore tous les dossiers build de tous les modules
-**/build/
-
-# Fichiers compilés Java/Kotlin
-*.class
-*.dex
-*.apk
-*.jar
-*.war

@@ -17,6 +17,8 @@ import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.user.User
 
+// c'est l'interface de l'espace prof
+
 @Composable
 fun TeacherScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
@@ -57,7 +59,7 @@ fun TeacherScreen(navController: NavController) {
             }
         }
 
-       // liste pour les seances en fonction de l''heure
+       // liste pour les seances en fonction de l'heure
         val sessions = listOf(
             "8h-10h",
             "10h-12h",

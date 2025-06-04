@@ -6,6 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+//quelques fonts, peut etre pas utlisés partout mais c bien de les avoir
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
