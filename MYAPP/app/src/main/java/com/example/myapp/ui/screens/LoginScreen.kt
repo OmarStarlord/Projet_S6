@@ -1,5 +1,6 @@
 package com.example.myapp.ui.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -16,12 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapp.R
-import com.example.myapp.user.User
 import com.example.myapp.user.Role
+import com.example.myapp.user.User
+import com.example.myapp.user.loadUsers
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    val colorScheme = MaterialTheme.colorScheme
+    val context = LocalContext.current
+    val users = remember { loadUsers(context) }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -30,7 +34,7 @@ fun LoginScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorScheme.background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -41,59 +45,36 @@ fun LoginScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.logoomar),
                 contentDescription = "Logo de l'application",
-                modifier = Modifier.size(100.dp),
-                colorFilter = null
+                modifier = Modifier.size(100.dp)
             )
 
             Text(
                 text = "Connexion",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email", color = colorScheme.onSurface) },
+                label = { Text("Email") },
                 modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = colorScheme.surface,
-                    unfocusedContainerColor = colorScheme.surface,
-                    focusedIndicatorColor = colorScheme.primary,
-                    unfocusedIndicatorColor = colorScheme.onSurface,
-                    focusedLabelColor = colorScheme.primary,
-                    unfocusedLabelColor = colorScheme.onSurface,
-                    focusedTextColor = colorScheme.onSurface,
-                    unfocusedTextColor = colorScheme.onSurface,
-                    cursorColor = colorScheme.primary
-                )
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
             )
 
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Mot de passe", color = colorScheme.onSurface) },
+                label = { Text("Mot de passe") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = colorScheme.surface,
-                    unfocusedContainerColor = colorScheme.surface,
-                    focusedIndicatorColor = colorScheme.primary,
-                    unfocusedIndicatorColor = colorScheme.onSurface,
-                    focusedLabelColor = colorScheme.primary,
-                    unfocusedLabelColor = colorScheme.onSurface,
-                    focusedTextColor = colorScheme.onSurface,
-                    unfocusedTextColor = colorScheme.onSurface,
-                    cursorColor = colorScheme.primary
-                )
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
             )
 
             Button(
                 onClick = {
-                    val matchedUser = User.users.find { it.email == email && it.password == password }
+                    val matchedUser = users.find { it.email == email && it.password == password }
                     if (matchedUser != null) {
                         when (matchedUser.role) {
                             Role.TEACHER -> navController.navigate("teacher")
@@ -103,25 +84,14 @@ fun LoginScreen(navController: NavController) {
                         error = "Email ou mot de passe incorrect"
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorScheme.primary,
-                    contentColor = colorScheme.onPrimary
-                )
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Se connecter")
             }
 
-            Text(
-                text = "Mot de passe oublié ?",
-                fontSize = 14.sp,
-                color = colorScheme.primary,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-
-            error?.let {
+            if (error != null) {
                 Text(
-                    text = it,
+                    text = error ?: "",
                     color = MaterialTheme.colorScheme.error,
                     fontSize = 14.sp
                 )

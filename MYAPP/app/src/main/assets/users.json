@@ -1,0 +1,16 @@
+[
+  {
+    "email": "joel.dion@uha.fr",
+    "password": "dionlegoat",
+    "role": "TEACHER",
+    "name": "M. Joel Dion",
+    "photoResId": "teacher_photo"
+  },
+  {
+    "email": "louay.ben-ltoufa@uha.fr",
+    "password": "zanak123",
+    "role": "STUDENT",
+    "name": "Louay Ben Ltoufa",
+    "photoResId": "student_photo"
+  }
+]
