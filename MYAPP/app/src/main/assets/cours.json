@@ -1,0 +1,14 @@
+[
+  {
+    "nom": "STATS",
+    "type": "CM",
+    "enseignantEmail": "joel.dion@uha.fr",
+    "date_cours": "2025-06-05 08:00"
+  },
+  {
+    "nom": "Physique",
+    "type": "TD1",
+    "enseignantEmail": "joel.dion@uha.fr",
+    "date_cours": "2025-06-05 10:00"
+  }
+]

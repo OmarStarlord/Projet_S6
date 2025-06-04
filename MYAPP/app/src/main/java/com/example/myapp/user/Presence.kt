@@ -1,10 +1,13 @@
 package com.example.myapp.user
+import com.example.myapp.user.Presence
+import com.example.myapp.user.EtudiantPresence
+import com.example.myapp.user.StatutPresence
 
 
 data class Presence(
-    val id: String,
     val coursId: String,
     val date: String,
+    val typeCours: String,
     val etudiants: List<EtudiantPresence>
 )
 
@@ -18,3 +21,4 @@ enum class StatutPresence {
     ABSENT,
     JUSTIFIE
 }
+

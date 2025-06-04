@@ -1,44 +1,48 @@
 package com.example.myapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapp.user.*
 
 enum class AttendanceStatus {
     NONE, PRESENT, LATE, ABSENT
 }
 
 @Composable
-fun PresenceScreen(session: String) {
-    val studentList = listOf(
-        "Louay Ben Ltoufa",
-        "Baratte Martin",
-        "Ragavan Sakithyan",
-        "Beauvy Elise",
-        "Omar Zahraman",
-        "Omar Lidalt"
-    )
+fun PresenceScreen(session: String, cours: Cours) {
+    val context = LocalContext.current
+    val allUsers = remember { loadUsers(context) }
+    val students = allUsers.filter { it.role == Role.STUDENT }
 
-    val attendanceMap = remember {
+    val displayedStudents = when (cours.type.trim().uppercase()) {
+        "CM" -> students
+        "TD1", "TD2", "TD3" -> students.filter { it.studentInfo?.groupeTD == cours.type }
+        "TP1", "TP2", "TP3" -> students.filter { it.studentInfo?.groupeTP == cours.type }
+        else -> emptyList()
+    }
+
+    val attendanceMap = remember(displayedStudents) {
         mutableStateMapOf<String, AttendanceStatus>().apply {
-            studentList.forEach { this[it] = AttendanceStatus.NONE }
+            displayedStudents.forEach { this[it.email] = AttendanceStatus.NONE }
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorScheme.background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -46,23 +50,22 @@ fun PresenceScreen(session: String) {
             text = "Présences – Séance $session",
             fontSize = 22.sp,
             style = MaterialTheme.typography.titleMedium,
-            color = Color.White
+            color = MaterialTheme.colorScheme.onBackground
         )
-
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LegendItem("Présent", Color(0xFF143e01))    //legende pour comprendre code couleur
+            LegendItem("Présent", Color(0xFF143e01))
             LegendItem("En retard", Color(0xFF6a4804))
             LegendItem("Absent", Color(0xFF710404))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        studentList.forEach { studentName ->
+        displayedStudents.forEach { student ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -71,36 +74,58 @@ fun PresenceScreen(session: String) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = studentName,
+                    text = student.name,
                     fontSize = 16.sp,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.weight(1f)
                 )
-
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatusCircle(
-                        baseColor = Color(0xFF143e01),
-                        highlightColor = Color(0xFF66BB6A),
-                        selected = attendanceMap[studentName] == AttendanceStatus.PRESENT
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.PRESENT
+                    StatusCircle(Color(0xFF143e01), Color(0xFF66BB6A), attendanceMap[student.email] == AttendanceStatus.PRESENT) {
+                        attendanceMap[student.email] = AttendanceStatus.PRESENT
                     }
-                    StatusCircle(
-                        baseColor = Color(0xFF6a4804),
-                        highlightColor = Color(0xFFFFB74D),
-                        selected = attendanceMap[studentName] == AttendanceStatus.LATE
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.LATE
+                    StatusCircle(Color(0xFF6a4804), Color(0xFFFFB74D), attendanceMap[student.email] == AttendanceStatus.LATE) {
+                        attendanceMap[student.email] = AttendanceStatus.LATE
                     }
-                    StatusCircle(
-                        baseColor = Color(0xFF710404),
-                        highlightColor = Color(0xFFff0000),
-                        selected = attendanceMap[studentName] == AttendanceStatus.ABSENT
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.ABSENT
+                    StatusCircle(Color(0xFF710404), Color(0xFFFF0000), attendanceMap[student.email] == AttendanceStatus.ABSENT) {
+                        attendanceMap[student.email] = AttendanceStatus.ABSENT
                     }
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+                val etudiants = displayedStudents.map {
+                    EtudiantPresence(
+                        email = it.email,
+                        statut = when (attendanceMap[it.email]) {
+                            AttendanceStatus.PRESENT -> StatutPresence.PRESENT
+                            AttendanceStatus.LATE -> StatutPresence.JUSTIFIE
+                            AttendanceStatus.ABSENT -> StatutPresence.ABSENT
+                            else -> StatutPresence.ABSENT
+                        }
+                    )
+                }
+
+                val presence = Presence(
+                    coursId = cours.nom,
+                    date = cours.date_cours.take(10),
+                    typeCours = cours.type,
+                    etudiants = etudiants
+                )
+
+                val existing = loadPresences(context).toMutableList()
+                existing.removeIf { it.coursId == presence.coursId && it.date == presence.date }
+                existing.add(presence)
+
+                savePresences(context, existing)
+                Log.d("PresenceScreen", "✅ Présence sauvegardée pour ${presence.coursId} - ${presence.date}")
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Enregistrer")
         }
     }
 }
@@ -125,7 +150,6 @@ fun StatusCircle(
             .border(width = borderWidth, color = borderColor, shape = CircleShape)
     )
 }
-
 @Composable
 fun LegendItem(label: String, color: Color) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -135,6 +159,6 @@ fun LegendItem(label: String, color: Color) {
                 .background(color = color, shape = CircleShape)
         )
         Spacer(modifier = Modifier.width(6.dp))
-        Text(text = label, color = Color.White, fontSize = 12.sp)
+        Text(text = label, color = MaterialTheme.colorScheme.onBackground, fontSize = 12.sp)
     }
 }

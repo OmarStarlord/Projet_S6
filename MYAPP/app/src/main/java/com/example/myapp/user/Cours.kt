@@ -1,11 +1,9 @@
 package com.example.myapp.user
 
-import java.util.Date
 
-data class Cours(
-    val id: String,
+data class Cours (
     val nom: String,
-    val type: String,
+    val type: String,  // <- c'est bien une string
     val enseignantEmail: String,
-    val date_cours: Date
-)
+    val date_cours: String
+) : java.io.Serializable

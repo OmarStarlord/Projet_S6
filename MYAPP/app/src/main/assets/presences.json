@@ -1,0 +1,10 @@
+[
+  {
+    "coursId": "c1",
+    "date": "2024-06-03",
+    "etudiants": [
+      { "email": "louay.ben-ltoufa@uha.fr", "statut": "PRESENT" },
+      { "email": "baratte.martin@uha.fr", "statut": "ABSENT" }
+    ]
+  }
+]

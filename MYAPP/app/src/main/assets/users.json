@@ -11,6 +11,8 @@
     "password": "zanak123",
     "role": "STUDENT",
     "name": "Louay Ben Ltoufa",
-    "photoResId": "student_photo"
+    "photoResId": "student_photo",
+    "groupeTD": "TD2",
+    "groupeTP": "TP1"
   }
 ]

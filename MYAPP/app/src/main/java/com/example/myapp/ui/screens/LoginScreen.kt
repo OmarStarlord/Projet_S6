@@ -77,8 +77,9 @@ fun LoginScreen(navController: NavController) {
                     val matchedUser = users.find { it.email == email && it.password == password }
                     if (matchedUser != null) {
                         when (matchedUser.role) {
-                            Role.TEACHER -> navController.navigate("teacher")
-                            Role.STUDENT -> navController.navigate("student")
+                            Role.TEACHER -> navController.navigate("teacher/${matchedUser.email}")
+                            Role.STUDENT -> navController.navigate("student/${matchedUser.email}")
+
                         }
                     } else {
                         error = "Email ou mot de passe incorrect"
