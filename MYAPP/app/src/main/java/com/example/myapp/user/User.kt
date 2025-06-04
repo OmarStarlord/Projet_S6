@@ -16,7 +16,7 @@ data class User(
         val users = listOf(
             User(
                 email = "joel.dion@uha.fr",
-                password = "dionlegoat",
+                password = "gaussestmeilleurquenewton",
                 role = Role.TEACHER,
                 name = "M. Joel Dion",
                 photoResId = com.example.myapp.R.drawable.teacher_photo

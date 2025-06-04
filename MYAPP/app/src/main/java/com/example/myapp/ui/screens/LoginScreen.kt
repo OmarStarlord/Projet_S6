@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.user.User
 import com.example.myapp.user.Role
-import java.nio.file.Files.find
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -40,7 +39,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.logo1),
+                painter = painterResource(id = R.drawable.logoomar),
                 contentDescription = "Logo de l'application",
                 modifier = Modifier.size(100.dp),
                 colorFilter = null
