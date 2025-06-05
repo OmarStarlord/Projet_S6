@@ -12,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.user.User
@@ -46,6 +48,7 @@ fun TeacherScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = "Bienvenue dans l’espace Cloky enseignant !",
                     style = MaterialTheme.typography.titleMedium,
@@ -59,7 +62,15 @@ fun TeacherScreen(navController: NavController) {
             }
         }
 
-       // liste pour les seances en fonction de l'heure
+        Text(
+            text = "Aujourd'hui",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = colorScheme.onBackground,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // liste pour les seances en fonction de l'heure
         val sessions = listOf(
             "8h-10h",
             "10h-12h",
