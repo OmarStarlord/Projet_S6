@@ -32,7 +32,6 @@ fun TeacherScreen(navController: NavController) {
             .background(colorScheme.background)
             .padding(16.dp)
     ) {
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -48,7 +47,6 @@ fun TeacherScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = "Bienvenue dans l’espace Cloky enseignant !",
                     style = MaterialTheme.typography.titleMedium,
@@ -62,6 +60,7 @@ fun TeacherScreen(navController: NavController) {
             }
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Aujourd'hui",
             fontSize = 24.sp,
@@ -69,18 +68,11 @@ fun TeacherScreen(navController: NavController) {
             color = colorScheme.onBackground,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-
-        // liste pour les seances en fonction de l'heure
-        val sessions = listOf(
-            "8h-10h",
-            "10h-12h",
-            "14h-16h",
-            "16h-18h"
-        )
-
+        // la listes des seances, chacune aura un tag specifique td1/cm/tp....
+        val sessions = listOf("TD1", "TD2", "TP1", "CM")
+        // on affiche la lsite des seances
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(sessions.size) { index ->
@@ -88,12 +80,11 @@ fun TeacherScreen(navController: NavController) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
+                        .align(Alignment.CenterHorizontally)
                         .clickable {
                             navController.navigate("presence/$session")
                         },
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorScheme.primaryContainer
-                    ),
+                    colors = CardDefaults.cardColors(containerColor = colorScheme.primaryContainer),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Box(modifier = Modifier.padding(16.dp)) {
