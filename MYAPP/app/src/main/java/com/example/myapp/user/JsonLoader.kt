@@ -79,20 +79,34 @@ fun loadCourses(context: Context): List<Cours> {
 
 
 fun loadPresences(context: Context): List<Presence> {
-    ensurePresenceFileExists(context)  // Assure que le fichier existe
-    val file = File(context.filesDir, "presences.json")
-    val json = file.readText()
+    val files = context.filesDir.listFiles { file ->
+        file.name.startsWith("presence_") && file.name.endsWith(".json")
+    } ?: return emptyList()
+
     val gson = Gson()
-    val type = object : TypeToken<List<Presence>>() {}.type
-    return gson.fromJson(json, type)
+    val type = object : TypeToken<Presence>() {}.type
+
+    return files.mapNotNull { file ->
+        try {
+            gson.fromJson(file.readText(), type)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
 
-fun savePresences(context: Context, presences: List<Presence>) {
-    val file = File(context.filesDir, "presences.json")
+
+fun savePresence(context: Context, presence: Presence) {
+    val courseName = presence.coursId.replace(" ", "_")
+    val dateParts = presence.date.replace(":", "").replace("-", "").replace(" ", "_")
+    val fileName = "presence_${courseName}_$dateParts.json"
+
+    val file = File(context.filesDir, fileName)
     val gson = Gson()
-    val json = gson.toJson(presences)
+    val json = gson.toJson(presence)
     file.writeText(json)
-    println("✅ Présences enregistrées dans ${file.absolutePath}")
+
+    println("✅ Présence enregistrée dans ${file.absolutePath}")
 }
 
 

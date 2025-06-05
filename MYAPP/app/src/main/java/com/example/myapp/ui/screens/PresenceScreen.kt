@@ -97,36 +97,28 @@ fun PresenceScreen(session: String, cours: Cours) {
 
         Button(
             onClick = {
-                val etudiants = displayedStudents.map {
-                    EtudiantPresence(
-                        email = it.email,
-                        statut = when (attendanceMap[it.email]) {
-                            AttendanceStatus.PRESENT -> StatutPresence.PRESENT
-                            AttendanceStatus.LATE -> StatutPresence.JUSTIFIE
-                            AttendanceStatus.ABSENT -> StatutPresence.ABSENT
-                            else -> StatutPresence.ABSENT
-                        }
-                    )
-                }
-
                 val presence = Presence(
                     coursId = cours.nom,
-                    date = cours.date_cours.take(10),
+                    date = cours.date_cours,
                     typeCours = cours.type,
-                    etudiants = etudiants
+                    etudiants = displayedStudents.map {
+                        EtudiantPresence(
+                            email = it.email,
+                            statut = when (attendanceMap[it.email]) {
+                                AttendanceStatus.PRESENT -> StatutPresence.PRESENT
+                                AttendanceStatus.LATE -> StatutPresence.JUSTIFIE
+                                AttendanceStatus.ABSENT -> StatutPresence.ABSENT
+                                else -> StatutPresence.ABSENT
+                            }
+                        )
+                    }
                 )
-
-                val existing = loadPresences(context).toMutableList()
-                existing.removeIf { it.coursId == presence.coursId && it.date == presence.date }
-                existing.add(presence)
-
-                savePresences(context, existing)
-                Log.d("PresenceScreen", "✅ Présence sauvegardée pour ${presence.coursId} - ${presence.date}")
-            },
-            modifier = Modifier.align(Alignment.End)
+                savePresence(context, presence)
+            }
         ) {
             Text("Enregistrer")
         }
+
     }
 }
 
