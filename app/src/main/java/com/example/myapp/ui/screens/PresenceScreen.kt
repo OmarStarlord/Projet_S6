@@ -50,7 +50,6 @@ fun PresenceScreen(session: String) {
             color = Color.White
         )
 
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -64,42 +63,49 @@ fun PresenceScreen(session: String) {
         Spacer(modifier = Modifier.height(8.dp))
 
         studentList.forEach { studentName ->
-            Row(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF7E57C2)) // violet
             ) {
-                Text(
-                    text = studentName,
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    modifier = Modifier.weight(1f)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = studentName,
+                        fontSize = 16.sp,
+                        color = Color.White,
+                        modifier = Modifier.weight(1f)
+                    )
 
-                //changement de couleur bouton
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatusCircle(
-                        baseColor = Color(0xFF143e01),
-                        highlightColor = Color(0xFF66BB6A),
-                        selected = attendanceMap[studentName] == AttendanceStatus.PRESENT
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.PRESENT
-                    }
-                    StatusCircle(
-                        baseColor = Color(0xFF6a4804),
-                        highlightColor = Color(0xFFFFB74D),
-                        selected = attendanceMap[studentName] == AttendanceStatus.LATE
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.LATE
-                    }
-                    StatusCircle(
-                        baseColor = Color(0xFF710404),
-                        highlightColor = Color(0xFFff0000),
-                        selected = attendanceMap[studentName] == AttendanceStatus.ABSENT
-                    ) {
-                        attendanceMap[studentName] = AttendanceStatus.ABSENT
+                    //changement de couleur bouton
+                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        StatusCircle(
+                            baseColor = Color(0xFF143e01),
+                            highlightColor = Color(0xFF66BB6A),
+                            selected = attendanceMap[studentName] == AttendanceStatus.PRESENT
+                        ) {
+                            attendanceMap[studentName] = AttendanceStatus.PRESENT
+                        }
+                        StatusCircle(
+                            baseColor = Color(0xFF6a4804),
+                            highlightColor = Color(0xFFFFB74D),
+                            selected = attendanceMap[studentName] == AttendanceStatus.LATE
+                        ) {
+                            attendanceMap[studentName] = AttendanceStatus.LATE
+                        }
+                        StatusCircle(
+                            baseColor = Color(0xFF710404),
+                            highlightColor = Color(0xFFff0000),
+                            selected = attendanceMap[studentName] == AttendanceStatus.ABSENT
+                        ) {
+                            attendanceMap[studentName] = AttendanceStatus.ABSENT
+                        }
                     }
                 }
             }
