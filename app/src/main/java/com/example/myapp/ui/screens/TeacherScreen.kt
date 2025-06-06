@@ -6,8 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,12 +21,12 @@ import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.user.User
 
-// c'est l'interface de l'espace prof
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeacherScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
     val teacher = User.users.find { it.role == com.example.myapp.user.Role.TEACHER }
+    val openDatePicker = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -32,6 +34,7 @@ fun TeacherScreen(navController: NavController) {
             .background(colorScheme.background)
             .padding(16.dp)
     ) {
+        // espace prof, photo + bienvenue....
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -46,7 +49,9 @@ fun TeacherScreen(navController: NavController) {
                     .clip(CircleShape)
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Column {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
                     text = "Bienvenue dans l’espace Cloky enseignant !",
                     style = MaterialTheme.typography.titleMedium,
@@ -61,16 +66,30 @@ fun TeacherScreen(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Aujourd'hui",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorScheme.onBackground,
+
+        // on peut afficher la date, mais instead j'ai mis le mot "aujourdhui" avec le calendrier
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 16.dp)
-        )
-        // la listes des seances, chacune aura un tag specifique td1/cm/tp....
+        ) {
+            Text(
+                text = "Aujourd'hui",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorScheme.onBackground
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            IconButton(onClick = { openDatePicker.value = true }) {
+                Icon(
+                    imageVector = Icons.Default.CalendarToday,
+                    contentDescription = "Ouvrir le calendrier",
+                    tint = colorScheme.onBackground
+                )
+            }
+        }
+
+        // Liste des séances
         val sessions = listOf("TD1", "TD2", "TP1", "CM")
-        // on affiche la lsite des seances
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -95,6 +114,23 @@ fun TeacherScreen(navController: NavController) {
                         )
                     }
                 }
+            }
+        }
+
+        // l'affichage du calendrier
+        if (openDatePicker.value) {
+            DatePickerDialog(
+                onDismissRequest = { openDatePicker.value = false },
+                confirmButton = {
+                    TextButton(onClick = { openDatePicker.value = false }) {
+                        Text("Fermer")
+                    }
+                }
+            ) {
+                DatePicker(
+                    state = rememberDatePickerState(),
+                    showModeToggle = true
+                )
             }
         }
     }
