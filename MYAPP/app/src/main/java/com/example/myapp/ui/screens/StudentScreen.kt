@@ -1,13 +1,19 @@
 package com.example.myapp.ui.screens
 
-import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -15,22 +21,71 @@ import androidx.compose.ui.unit.sp
 import com.example.myapp.user.Presence
 import com.example.myapp.user.StatutPresence
 import com.example.myapp.user.loadPresences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun StudentScreen(studentEmail: String) {
+    Log.d("DEBUG_STUDENT", "StudentScreen loaded with email: $studentEmail")
     val context = LocalContext.current
-    val presences = remember { loadPresences(context) }
 
+    // 1) Launch loadPresences(...) on Dispatchers.IO and log filenames
+    val presencesState = produceState<List<Presence>?>(initialValue = null) {
+        value = withContext(Dispatchers.IO) {
+            val list = loadPresences(context)
+            Log.d("DEBUG_PRESENCES", "Loaded ${list.size} presence(s):")
+            list.forEach { presence ->
+                Log.d("DEBUG_PRESENCES", "→ ${presence.coursId} @ ${presence.date} (${presence.etudiants.size} students)")
+            }
+            list
+        }
+    }
+
+    // 2) While loading, show a spinner
+    if (presencesState.value == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+    // 3) Once loaded, unwrap the list
+    val presences = presencesState.value!!
+    Log.d("DEBUG_STUDENT", "Found ${presences.size} presence files (state)")
+
+    // 4) Compute stats for this student
     val totalPresent = presences.sumOf { presence ->
-        presence.etudiants.count { it.email == studentEmail && it.statut == StatutPresence.PRESENT }
+        presence.etudiants.count {
+            it.email.trim().equals(studentEmail.trim(), ignoreCase = true)
+                    && it.statut == StatutPresence.PRESENT
+        }
     }
     val totalAbsent = presences.sumOf { presence ->
-        presence.etudiants.count { it.email == studentEmail && it.statut == StatutPresence.ABSENT }
+        presence.etudiants.count {
+            it.email.trim().equals(studentEmail.trim(), ignoreCase = true)
+                    && it.statut == StatutPresence.ABSENT
+        }
     }
     val totalJustifie = presences.sumOf { presence ->
-        presence.etudiants.count { it.email == studentEmail && it.statut == StatutPresence.JUSTIFIE }
+        val count = presence.etudiants.count {
+            it.email.trim().equals(studentEmail.trim(), ignoreCase = true)
+                    && it.statut == StatutPresence.JUSTIFIE
+        }
+        if (count > 0) {
+            Log.d(
+                "DEBUG_STATUT",
+                "🟡 $studentEmail has JUSTIFIE in ${presence.coursId} on ${presence.date}"
+            )
+        }
+        count
     }
 
+    // 5) Display stats
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +135,7 @@ fun StudentScreen(studentEmail: String) {
 }
 
 @Composable
-fun StatBox(label: String, count: Int, color: androidx.compose.ui.graphics.Color) {
+fun StatBox(label: String, count: Int, color: Color) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = count.toString(),

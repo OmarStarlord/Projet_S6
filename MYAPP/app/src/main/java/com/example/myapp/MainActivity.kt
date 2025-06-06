@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                         LoginScreen(navController = navController)
                     }
 
-                    // Teacher screen with email parameter
+
                     composable(
                         route = "teacher/{email}",
                         arguments = listOf(navArgument("email") {
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                         TeacherScreen(navController = navController, teacherEmail = email)
                     }
 
-                    // Student screen with email parameter
+
                     composable(
                         route = "student/{email}",
                         arguments = listOf(navArgument("email") {

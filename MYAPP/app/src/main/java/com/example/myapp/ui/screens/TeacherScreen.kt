@@ -7,7 +7,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,19 +23,45 @@ import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.user.Cours
 import com.example.myapp.user.loadCourses
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
 fun TeacherScreen(navController: NavController, teacherEmail: String) {
     val context = LocalContext.current
-    val coursList = remember { loadCourses(context) }
 
+    // 1) Launch loadCourses(...) on Dispatchers.IO
+    val coursesState = produceState<List<Cours>?>(initialValue = null) {
+        value = withContext(Dispatchers.IO) {
+            loadCourses(context)
+        }
+    }
+
+    // 2) While loading from Pi, show a spinner
+    if (coursesState.value == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+    // 3) Once loaded, unwrap the list
+    val coursList = coursesState.value!!
+
+    // Compute today’s date string
     val todayString = remember {
         val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         format.format(Date())
     }
 
+    // Filter courses for this teacher and today
     val todayCourses = coursList.filter {
         it.enseignantEmail.trim() == teacherEmail.trim() &&
                 it.date_cours.trim().take(10) == todayString
@@ -85,7 +115,6 @@ fun TeacherScreen(navController: NavController, teacherEmail: String) {
                                 ?.savedStateHandle
                                 ?.set("selectedCours", cours)
                             navController.navigate("presence")
-
                         },
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer

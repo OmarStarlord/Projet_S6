@@ -1,12 +1,15 @@
 package com.example.myapp.ui.screens
 
-import android.content.Context
+import androidx.compose.runtime.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,6 +20,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.example.myapp.R
 import com.example.myapp.user.Role
 import com.example.myapp.user.User
@@ -25,11 +30,33 @@ import com.example.myapp.user.loadUsers
 @Composable
 fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
-    val users = remember { loadUsers(context) }
+
+    // 1) Launch loadUsers(...) on IO dispatcher
+    val usersState = produceState<List<User>?>(initialValue = null) {
+        value = withContext(Dispatchers.IO) {
+            loadUsers(context)
+        }
+    }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
+
+    // 2) While loading from Pi (usersState.value == null), show a spinner
+    if (usersState.value == null) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(32.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+    // 3) Once loaded, unwrap the list of users
+    val users = usersState.value!!
 
     Box(
         modifier = Modifier
@@ -79,7 +106,6 @@ fun LoginScreen(navController: NavController) {
                         when (matchedUser.role) {
                             Role.TEACHER -> navController.navigate("teacher/${matchedUser.email}")
                             Role.STUDENT -> navController.navigate("student/${matchedUser.email}")
-
                         }
                     } else {
                         error = "Email ou mot de passe incorrect"

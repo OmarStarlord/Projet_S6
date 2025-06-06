@@ -1,7 +1,5 @@
 package com.example.myapp.user
-import com.example.myapp.user.Presence
-import com.example.myapp.user.EtudiantPresence
-import com.example.myapp.user.StatutPresence
+
 
 
 data class Presence(
