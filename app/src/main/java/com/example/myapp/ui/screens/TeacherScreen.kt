@@ -22,6 +22,7 @@ import com.example.myapp.R
 import com.example.myapp.user.User
 
 @OptIn(ExperimentalMaterial3Api::class)
+// c'est l'interface de l'espace prof
 @Composable
 fun TeacherScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
@@ -88,7 +89,7 @@ fun TeacherScreen(navController: NavController) {
             }
         }
 
-        // Liste des séances
+        // la listes des seances, chacune aura un tag specifique td1/cm/tp....
         val sessions = listOf("TD1", "TD2", "TP1", "CM")
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
