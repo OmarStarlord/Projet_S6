@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import com.example.myapp.ui.screens.*
 import com.example.myapp.ui.theme.MYAPPTheme
 
-//code du main pour appeller les interfaces et l'affichage de tout
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
                         TeacherScreen(navController = navController)
                     }
                     composable("student") {
-                        StudentScreen()
+                        StudentScreen(navController = navController)
                     }
                     composable(
                         route = "presence/{session}",
@@ -35,6 +34,16 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val session = backStackEntry.arguments?.getString("session") ?: ""
                         PresenceScreen(session = session)
+                    }
+
+                    composable(
+                        route = "studentSessionDetails/{session}",
+                        arguments = listOf(navArgument("session") {
+                            type = NavType.StringType
+                        })
+                    ) { backStackEntry ->
+                        val session = backStackEntry.arguments?.getString("session") ?: ""
+                        DetailsScreen(session = session)
                     }
                 }
             }
